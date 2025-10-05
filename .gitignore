@@ -1,0 +1,22 @@
+# Ignore Maven target directories
+**/target/
+
+# Ignore IDE files
+.vscode/
+.idea/
+
+# Ignore local build wrappers
+.mvn/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Ignore jar artifacts
+*.jar
+
+# Keep the .gitignore tracked
