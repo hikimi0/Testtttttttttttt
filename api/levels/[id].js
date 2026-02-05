@@ -42,7 +42,6 @@ export default async function handler(req, res) {
   res.status(200).json({
     levelId: levelId,
     name: levelData.name,
-    difficulty: levelData.difficulty,
     hasUpdate: true,
     downloadUrl: levelData.url,
     fileSize: levelData.fileSize,
