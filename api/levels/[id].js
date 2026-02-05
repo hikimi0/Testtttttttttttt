@@ -15,25 +15,17 @@ export default async function handler(req, res) {
   const specialLevels = {
     51: {
       name: "Special Level 1",
-      difficulty: "hard",
-      url: "https://github.com/hikimi0/Testtttttttttttt/releases/download/v1.0.0/level_51.pck",
+      url: "https://github.com/hikimi0/Testtttttttttttt/releases/download/v1.0.0/special1.pck",
       fileSize: 5242880,
       checksum: "abc123def456"
-    },
-    52: {
-      name: "Special Level 2",
-      difficulty: "medium",
-      url: "https://github.com/hikimi0/Testtttttttttttt/releases/download/v1.0.0/level_52.pck",
-      fileSize: 1856,
-      checksum: "def456ghi789"
-    },
-    53: {
-      name: "Special Level 3",
-      difficulty: "expert",
-      url: "https://github.com/hikimi0/Testtttttttttttt/releases/download/v1.0.0/level_53.pck",
-      fileSize: 3072,
-      checksum: "ghi789jkl012"
     }
+    ,
+    // 52: {
+    //   name: "Special Level 2",
+    //   url: "https://github.com/hikimi0/Testtttttttttttt/releases/download/v1.0.0/special2.pck",
+    //   fileSize: 1856,
+    //   checksum: "def456ghi789"
+    // }
   };
 
   // Kiểm tra level có tồn tại không
