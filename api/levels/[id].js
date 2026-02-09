@@ -17,7 +17,7 @@ export default async function handler(req, res) {
       name: "Special Level 1",
       url: "https://github.com/hikimi0/Testtttttttttttt/releases/download/v1.0.0/special1.pck",
       fileSize: 5242880,
-      checksum: "abc123def456"
+      checksum: "edf92566787c2ba993f8a452317062dd"
     }
     ,
     // 52: {
