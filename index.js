@@ -1,5 +1,5 @@
 import express from 'express';
-import levelRoutes from './api/levels/[id].js';
+import levelRoutes from './api/levels/level_detail.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
