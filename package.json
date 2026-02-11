@@ -3,5 +3,8 @@
   "name": "game-update-server",
   "version": "1.0.0",
   "description": "Game level update server",
-  "main": "api/levels.js"
+  "main": "api/levels.js",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.95.3"
+  }
 }

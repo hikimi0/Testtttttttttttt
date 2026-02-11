@@ -1,51 +1,31 @@
+import { createClient } from '@supabase/supabase-js'
+
+// Khởi tạo Supabase (Sử dụng biến môi trường để bảo mật)
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_ANON_KEY
+)
+
 export default async function handler(req, res) {
-  // CORS
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
+  const { id } = req.query // Lấy ID từ URL (ví dụ: /api/levels/1)
 
-  const { id } = req.query;
-  const levelId = parseInt(id);
+  try {
+    // Truy vấn Supabase: Lấy level có id tương ứng
+    // Giả sử bảng của bạn tên là 'levels'
+    const { data, error } = await supabase
+      .from('levels')
+      .select('*')
+      .eq('id', id)
+      .single()
 
-  // Dữ liệu các special level
-  const specialLevels = {
-    51: {
-      name: "Special Level 1",
-      url: "https://github.com/hikimi0/Testtttttttttttt/releases/download/v1.0.0/special1.pck",
-      fileSize: 5242880,
-      checksum: "edf92566787c2ba993f8a452317062dd"
+    if (error || !data) {
+      return res.status(404).json({ error: 'Không tìm thấy level này!' })
     }
-    ,
-    // 52: {
-    //   name: "Special Level 2",
-    //   url: "https://github.com/hikimi0/Testtttttttttttt/releases/download/v1.0.0/special2.pck",
-    //   fileSize: 1856,
-    //   checksum: "def456ghi789"
-    // }
-  };
 
-  // Kiểm tra level có tồn tại không
-  if (!specialLevels[levelId]) {
-    return res.status(404).json({
-      error: "Level not found",
-      levelId: levelId
-    });
+    // Trả về dữ liệu cho Game
+    return res.status(200).json(data)
+    
+  } catch (err) {
+    return res.status(500).json({ error: 'Lỗi server: ' + err.message })
   }
-
-  const levelData = specialLevels[levelId];
-  const clientVersion = req.query.version || "0";
-
-  res.status(200).json({
-    levelId: levelId,
-    name: levelData.name,
-    hasUpdate: true,
-    downloadUrl: levelData.url,
-    fileSize: levelData.fileSize,
-    checksum: levelData.checksum,
-    version: "1.0"
-  });
 }
