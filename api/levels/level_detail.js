@@ -9,22 +9,27 @@ const supabase = createClient(
   process.env.SUPABASE_ANON_KEY
 );
 
-// Route xử lý lấy level theo ID
-router.get('/:id', async (req, res) => {
-  const { id } = req.params; // Lấy ID từ URL
-
+// Route lấy bản cập nhật mới nhất
+// Bạn có thể gọi: https://.../api/levels/latest
+router.get('/latest', async (req, res) => {
   try {
     const { data, error } = await supabase
-      .from('levels') // Tên bảng trên Supabase của bạn
-      .select('*')
-      .eq('id', id)
+      .from('game_update') // Tên bảng mới bạn vừa tạo
+      .select('version, pck_url, created_at')
+      .order('created_at', { ascending: false }) // Sắp xếp cái mới nhất lên đầu
+      .limit(1)
       .single();
 
     if (error || !data) {
-      return res.status(404).json({ error: 'Level không tồn tại!' });
+      return res.status(404).json({ error: 'Chưa có bản cập nhật nào!' });
     }
 
-    return res.json(data);
+    return res.json({
+      success: true,
+      version: data.version,
+      url: data.pck_url,
+      date: data.created_at
+    });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
