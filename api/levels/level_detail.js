@@ -1,5 +1,6 @@
 import express from 'express';
 import { createClient } from '@supabase/supabase-js';
+import e from 'express';
 
 const router = express.Router();
 
@@ -21,7 +22,12 @@ router.get('/latest', async (req, res) => {
       .single();
 
     if (error || !data) {
-      return res.status(404).json({ error: 'Chưa có bản cập nhật nào!' });
+            return res.status(404).json({ 
+                success: false, 
+                message: error 
+                    ? 'Lỗi truy vấn dữ liệu cập nhật.' 
+                    : 'Không tìm thấy bản cập nhật mới nào.' 
+            });
     }
 
     return res.json({
@@ -31,7 +37,7 @@ router.get('/latest', async (req, res) => {
       date: data.created_at
     });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ success: false, error: err.message });
   }
 });
 
