@@ -1,6 +1,5 @@
 import express from 'express';
 import { createClient } from '@supabase/supabase-js';
-import e from 'express';
 
 const router = express.Router();
 
@@ -10,24 +9,28 @@ const supabase = createClient(
   process.env.SUPABASE_ANON_KEY
 );
 
+// ✅ THÊM: Health check riêng cho route này (optional)
+router.get('/health', (req, res) => {
+  res.status(200).json({ status: 'levels API OK' });
+});
+
 // Route lấy bản cập nhật mới nhất
-// Bạn có thể gọi: https://.../api/levels/latest
 router.get('/latest', async (req, res) => {
   try {
     const { data, error } = await supabase
-      .from('game_update') // Tên bảng mới bạn vừa tạo
+      .from('game_update')
       .select('version, pck_url, created_at')
-      .order('created_at', { ascending: false }) // Sắp xếp cái mới nhất lên đầu
+      .order('created_at', { ascending: false })
       .limit(1)
       .single();
 
     if (error || !data) {
-            return res.status(404).json({ 
-                success: false, 
-                message: error 
-                    ? 'Lỗi truy vấn dữ liệu cập nhật.' 
-                    : 'Không tìm thấy bản cập nhật mới nào.' 
-            });
+      return res.status(404).json({ 
+        success: false, 
+        message: error 
+          ? 'Lỗi truy vấn dữ liệu cập nhật.' 
+          : 'Không tìm thấy bản cập nhật mới nào.' 
+      });
     }
 
     return res.json({
